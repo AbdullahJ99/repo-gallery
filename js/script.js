@@ -6,6 +6,10 @@ const repoList = document.querySelector(".repo-list");
 const repos = document.querySelector(".repos");
 //Individual repo data section
 const repoData = document.querySelector(".repo-data");
+//Return to repo list button
+const viewRepos = document.querySelector(".view-repos");
+//Repos search bar input
+const filterInput = document.querySelector(".filter-repos");
 const username = "AbdullahJ99";
 
 
@@ -41,6 +45,7 @@ const fetchRepos = async function(){
 }
 
 const displayRepos = function(repos){
+    filterInput.classList.remove("hide");
     for(const repo of repos){
         let li = document.createElement("li");
         li.classList.add("repo");
@@ -80,4 +85,25 @@ const displayRepo = function(repoInfo, languages){
     repoData.append(div);
     repoData.classList.remove("hide");
     repos.classList.add("hide");
+    viewRepos.classList.remove("hide");
 }
+
+viewRepos.addEventListener("click", function(){
+    repos.classList.remove("hide");
+    repoData.classList.add("hide");
+    viewRepos.classList.add("hide");
+});
+
+filterInput.addEventListener("input", function(e){
+    const textInput = e.target.value;
+    const searchText = textInput.toLowerCase();
+    const searchRepos = document.querySelectorAll(".repo");
+    for (const repo of searchRepos){
+        const repoName = repo.innerText.toLowerCase();
+        if(repoName.includes(searchText)){
+            repo.classList.remove("hide");
+        } else {
+            repo.classList.add("hide");
+        }
+    }
+});
